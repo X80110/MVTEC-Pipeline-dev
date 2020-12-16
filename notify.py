@@ -13,7 +13,7 @@ print(EMAIL_USERNAME)
 # this is a body"""
 
 recipients = ['xbollo@gmail.com','melondulzon@gmail.com']
-subject = 'You rock!'
+subject = 'Works fine!'
 
 body = 'Code ran all the way through!'
 
