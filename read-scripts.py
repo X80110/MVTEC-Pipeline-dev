@@ -1,6 +1,6 @@
 import subprocess
 import os
-import pandas
+
 
 this_file = os.path.abspath(__file__)
 this_dir = os.path.dirname(this_file)
