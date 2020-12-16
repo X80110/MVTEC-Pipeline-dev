@@ -183,10 +183,21 @@ colnames(ddExtra2) <- c('continent',
 merged_dataset <- select(dd, -continent) %>%
   left_join(ddExtra2, by = 'iso_code')
       
-merged_dataset      
+
 #Save file ----
+# USING HEROKU EPHEMERAL SYSTEM -> https://stackoverflow.com/questions/12416738/how-to-use-herokus-ephemeral-filesystem
+write.csv(merged_dataset, file='./tmp/merged_data.csv')
+
+# OUTPUT RESULT
+print("merged_data.csv saved at /tmp")
+
+
 #write.csv(merged_dataset, file='./output/merged_data.csv')
 #saveRDS(merged_dataset, file="output/merged_data.RDS")
+
+
+
+
 #<- (hide/show) - Deprectated code ----
 # Join countries
 # # Antijoin will make visible mismatching country 'strings' between datasets
