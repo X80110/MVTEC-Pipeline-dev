@@ -1,0 +1,6 @@
+boto3==1.14.58
+requests==2.25.0
+json5==0.9.5
+urllib3==1.25.11
+botocore==1.17.58
+schedule==0.6.0
