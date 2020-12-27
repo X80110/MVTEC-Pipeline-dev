@@ -2,8 +2,8 @@
 # this will set the target upload folder on S3 to your own directory
 folder="project"
 
-bucket="snxmvtec-test"
-region="us-east-1"
+bucket="mvtec-group3"
+region="eu-west-1"
 
 # some logging config
 import logging, sys

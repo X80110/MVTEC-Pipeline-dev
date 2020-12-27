@@ -19,7 +19,7 @@ def dataupload(file,content):
     try: 
         s3.put_object(
             Body=str(json.dumps(content)),
-            Bucket='snxmvtec-test',
+            Bucket='mvtec-group3',
             Key=target)
         logging.info("🙌 It looks good!")
         logging.info("⏳ Please wait a moment for the validation from server...")
