@@ -4,7 +4,7 @@ library(tidyverse)
 
 ## main covid dataset from ourworldindata.org && country data in extra excel file .xls data
 #COVID DATASET -------------------------------------- 
-d <- read.csv("https://covid.ourworldindata.org/data/owid-covid-data.csv",header=T)
+dd <- read.csv("https://covid.ourworldindata.org/data/owid-covid-data.csv",header=T)
 
 # validate rows x columns, assign 
 dim(dd)
@@ -189,7 +189,7 @@ merged_dataset <- select(dd, -continent) %>%
 write.csv(merged_dataset, file='./tmp/merged_data.csv')
 
 # OUTPUT RESULT
-print("merged_data.csv saved at /tmp")
+print("saved at /tmp")
 
 
 #write.csv(merged_dataset, file='./output/merged_data.csv')
