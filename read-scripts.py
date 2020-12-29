@@ -1,18 +1,32 @@
 import subprocess
 import os
-import pandas as pd
+import logging, time
+import config
+from upload_to_s3 import upload_to_s3
+from notify import send_email, email_body, recipients
 
-
+# set local path
 this_file = os.path.abspath(__file__)
 this_dir = os.path.dirname(this_file)
 os.chdir(this_dir)
 
-try:
-    result = subprocess.run(["Rscript","xavier_dataprep.R"], capture_output=True)
-    print(result.stdout.decode())
+try:    
+    # run rscripts on the server runtime
+    result = subprocess.run(["Rscript","Rscript/xavier_dataprep.R"], capture_output=True)
+    output = result.stdout.decode()
+    # uplodad output to S3
+    upload_to_s3(body=output, filename="data-test.csv")
 except Exception: 
-    print(result.stderr.decode())
+    log = result.stderr.decode()
+    print(log)
+    print("Scripts couldn't be read properly")
+    send_email('xbollo@gmail.com','Heroku scripts failed to run' ,email_body(log))
+    exit(1)
 
-df = pd.read_csv('tmp/merged_data.csv')
-print(df)
 
+
+
+
+
+# df = pd.read_csv('tmp/merged_data.csv')
+# print(df)

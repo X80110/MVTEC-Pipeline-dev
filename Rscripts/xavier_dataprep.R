@@ -184,12 +184,25 @@ merged_dataset <- select(dd, -continent) %>%
   left_join(ddExtra2, by = 'iso_code')
       
 
-#Save file ----
+# Set output to be captured by python ----
 # USING HEROKU EPHEMERAL SYSTEM -> https://stackoverflow.com/questions/12416738/how-to-use-herokus-ephemeral-filesystem
-setwd(file.path(getwd(), fsep = .Platform$file.sep))
-write.csv(merged_dataset, file='./tmp/merged_data.csv')
+#setwd(file.path(getwd(), fsep = .Platform$file.sep))
 
-merged_dataset
+library(gapminder)
+cat(format_csv(merged_dataset))
+gap_with_colors <-
+  data.frame(merged_dataset,
+             cc = I(country_colors[match(merged_dataset$location,
+                                         names(country_colors))]))
+
+# bubble plot, focus just on Africa and Europe in 2007
+keepers <- with(gap_with_colors,
+                continent %in% c("Africa", "Europe") & year == 2007)
+plot(lifeExp ~ gdpPercap, gap_with_colors,
+     subset = keepers, log = "x", pch = 21,
+     cex = sqrt(gap_with_colors$pop[keepers]/pi)/1500,
+     bg = gap_with_colors$cc[keepers])
+
 
 # for (i in merged_dataset) {
 #   NonNAindex <- cbind(NonNAindex, min(which(!is.na(i))))
