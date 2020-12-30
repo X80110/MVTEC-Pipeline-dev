@@ -8,23 +8,24 @@ The code is deployed on a free Heroku dyno properly set to be able to run both `
 Heroku has default buildpacks for `python` but none to run `R` code. The set up uses a third-party buildpack for R in Heroku which is [available here.](https://github.com/virtualstaticvoid/heroku-buildpack-r) 
 
 ## Pipeline structure
-  #### `app.py`
-  1. Calls the system runtime to process the statistical models (`.R` files) and connect with all the processes which interact for S3 storage interface and email notifications. 
+  1. Main file (`app.py`)
+   Orchestrate the whole process. It calls the system runtime to process the statistical models (`.R` files) and connects with all the processes which interact with S3 storage interface and email notifications. 
     - If succeed, the output is stored and uploaded to an AWS S3 bucket.
     - If files could not be read, status emails is sent.
     - If Heroku fails to run code, status emails is sent.
     - If an error occurs while uploading to S3, status emails is sent.
 
-  
-  3. Upload desired data to AWS S3 (`app.py`)
+  2. Upload desired data to AWS S3 (`upload_to_s3.py`)
+  3. Check file and output content into notification (`check_uploaded_file`)
   4. Send email notification with success/error status (`notify.py`)
   5. Set schedule to run daily
+
 ### Deploy to Heroku 
 Using Heroku CLI to set the repository and push it. 
 ```
 $ git:remote -a r-pipeline
 $ git add .
-$ git commit -am "make it better"
+$ git commit -am "deploy"
 $ git push heroku main
 ```
 Installing R runtime with buildpacks.
