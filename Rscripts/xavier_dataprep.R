@@ -1,4 +1,4 @@
-library(tidyverse)
+suppressMessages(library(tidyverse))
 
 # DATA EXAMINATION -----------------------------------
 
@@ -17,7 +17,7 @@ K <- dim(dd)[2]
 #names(dd)
     
 # declare factors
-attach(dd)
+suppressMessages(attach(dd))
 
 # identify types and categorical 
 #sapply(dd, class)
@@ -48,7 +48,7 @@ dd[,34] <- as.factor(test_units)
 # COUNTRY DATA -------------------------------------- 
 temp = tempfile(fileext = ".xlsx")
 dataURL <- "https://github.com/spepechen/MVTEC-covid-test/raw/main/data/InfoPaisosExtra.xlsx"
-download.file(dataURL, destfile=temp, mode='wb')
+download.file(dataURL, destfile=temp, mode='wb',quiet=TRUE)
 
 ddExtra <- readxl::read_xlsx(temp, na = "NA")
 #dim(ddExtra)
@@ -61,7 +61,7 @@ KExtra <- dim(ddExtra)[2]
 #names(ddExtra)
 
 # declare factors
-attach(ddExtra)
+suppressMessages(attach(ddExtra))
 
 # identify types and categorical 
 #sapply(ddExtra, class)
@@ -129,9 +129,9 @@ attach(ddExtra)
 
 # Using library `countrycode`---
 ddExtra2 <- ddExtra %>% 
-  mutate(iso_code = countrycode::countrycode(COUNTRY, origin = 'country.name', destination = 'iso3c')) %>% 
-  remove_rownames %>% 
-  column_to_rownames(var="COUNTRY")
+    suppressMessages(mutate(iso_code = countrycode::countrycode(COUNTRY, origin = 'country.name', destination = 'iso3c'))) %>% 
+    remove_rownames %>% 
+    column_to_rownames(var="COUNTRY")
   
 # XK for Kosovo
 # GB-CHA for Channel Islands
@@ -180,27 +180,7 @@ colnames(ddExtra2) <- c('continent',
                         'iso_code')
   
 # Join
-merged_dataset <- select(dd, -continent) %>%
-  left_join(ddExtra2, by = 'iso_code')
+covid <- select(dd, -continent) %>%
+  left_join(ddExtra2, by = 'iso_code') %>% filter(date>'2020-12-01')
       
-
-# Set output to be captured by python ----
-cat(format_csv(merged_dataset))
-
-
-
-# USING HEROKU EPHEMERAL SYSTEM -> https://stackoverflow.com/questions/12416738/how-to-use-herokus-ephemeral-filesystem
-#setwd(file.path(getwd(), fsep = .Platform$file.sep))
-
-
-# for (i in merged_dataset) {
-#   NonNAindex <- cbind(NonNAindex, min(which(!is.na(i))))
-#   }
-# 
-# firstNonNA <- min(NonNAindex)
-
-
-
-#write.csv(merged_dataset, file='./output/merged_data.csv')
-#saveRDS(merged_dataset, file="output/merged_data.RDS")
-
+cat(format_csv(covid))

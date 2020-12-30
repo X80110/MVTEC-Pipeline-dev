@@ -1,4 +1,24 @@
 # Data pipeline
+*Group-3*
+The code takes the Covid-19 dataset from [Our World in Data](http://ourworldindata.org) and process the statistical models, the output is adapted for its use in visualizations and it is uploaded to an AWS S3 bucket to make it available to web browsers. 
+
+The pipeline core runs mostly in `python`, the statistical models which are made in `R` run in a subprocess terminal and interact with the pipeline through the standard streams of the system.
+
+The code is deployed on a free Heroku dyno properly set to be able to run both `python` and `R`code.
+Heroku has default buildpacks for `python` but none to run `R` code. The set up uses a third-party buildpack for R in Heroku which is [available here.](https://github.com/virtualstaticvoid/heroku-buildpack-r) 
+
+## Pipeline structure
+  #### `app.py`
+  1. Calls the system runtime to process the statistical models (`.R` files) and connect with all the processes which interact for S3 storage interface and email notifications. 
+    - If succeed, the output is stored and uploaded to an AWS S3 bucket.
+    - If files could not be read, status emails is sent.
+    - If Heroku fails to run code, status emails is sent.
+    - If an error occurs while uploading to S3, status emails is sent.
+
+  
+  3. Upload desired data to AWS S3 (`app.py`)
+  4. Send email notification with success/error status (`notify.py`)
+  5. Set schedule to run daily
 ### Deploy to Heroku 
 Using Heroku CLI to set the repository and push it. 
 ```
@@ -30,7 +50,7 @@ install_if_missing = function(p) {
 invisible(sapply(my_packages, install_if_missing))
 ```
 
-## Pipeline workflow steps
+## Pipeline structure
   1. Run R scripts (`read-scripts.py`)
   2. Load output in Python
   3. Upload desired data to AWS S3 (`app.py`)
