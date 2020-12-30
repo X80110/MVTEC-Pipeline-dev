@@ -17,7 +17,7 @@ try:
     if 'error' in output: 
         print("Error running the scripts, email have been sent")
         print("Details: %s" % output)
-        send_email('xbollo@gmail.com','Scripts not found' ,output)
+        send_email(recipients,'Scripts not found' ,output)
     else:
         # uplodad output to S3
         upload_to_s3(body=output, filename="data-test.csv")
@@ -25,7 +25,7 @@ except Exception:
     log = result.stderr.decode()
     print(log)
     print("Scripts couldn't be read properly")
-    send_email('xbollo@gmail.com','Heroku scripts failed to run' ,log)
+    send_email(recipients,'Heroku scripts failed to run' ,log)
     exit(1)
 
 

@@ -19,7 +19,7 @@ def data_overview_mail(URL):
     # Table caption
     log = "Most recent data from date: %s \nDownload the output: \n%s" % (date_output, URL)
     print(log) 
-    send_email('xbollo@gmail.com','Files has been updated to S3 successfuly',log,table)
+    send_email(recipients,'Files has been updated to S3 successfuly',log,table)
     
 
 
