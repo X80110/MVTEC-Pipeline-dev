@@ -31,7 +31,7 @@ def send_email(to_addr, subject, body, table=None):
     message = MIMEMultipart()
     message['Subject'] = subject
     message['From'] = EMAIL_USERNAME
-    message['To'] = to_addr
+    message['To'] = ', '.join(to_addr)
     body_content = str(body) # convert to string to avoid tuple encoding in R stdout
     if table == None: 
         message.attach(MIMEText(body_content,"plain"))
