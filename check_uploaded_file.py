@@ -6,6 +6,7 @@ from notify import send_email, recipients
 
 # URL = 'https://mvtec-group3.s3-eu-west-1.amazonaws.com/project/data-test.csv'
 
+# TODO: Add conditionals to process other content in files.
 def data_overview_mail(URL):
     # Create summary table ---
     df = pd.read_csv(URL)
