@@ -6,17 +6,23 @@ headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/
 url = 'https://www.investing.com/currencies/usd-twd-historical-data'
 response = requests.get(url, headers=headers)
 
-dfs = pd.read_html(response.text)
-df = dfs[0]
+print(response)
 
-# read the historical file
-currency_df = pd.read_csv('currency_output.csv')
+if response.status_code == 200:
+    dfs = pd.read_html(response.text)
+    df = dfs[0]
+    # read the historical file
+    currency_df = pd.read_csv('currency_output.csv')
+    # updating new date's rate
+    combined = pd.concat([df, currency_df])
+    combined['Date'] = pd.to_datetime(combined['Date'])
+    combined = combined.drop_duplicates(subset='Date', keep="first")
+    combined.to_csv('currency_output.csv', index=False)
+    print("updated currency table successfully")
+else: 
+    print("data source is not responding. we will use archive csv.")
 
-# updating new date's rate
-combined = pd.concat([df, currency_df])
-combined['Date'] = pd.to_datetime(combined['Date'])
-combined = combined.drop_duplicates(subset='Date', keep="first")
 
-combined.to_csv('currency_output.csv', index=False)
-print("updated currency table successfully")
+
+
 
