@@ -1,5 +1,5 @@
 # TODO check libraries: caret, zoo
-my_packages = c("tidyverse", "readxl", "countrycode","scales")
+my_packages = c("tidyverse", "readxl", "countrycode","scales","zoo")
 
 install_if_missing = function(p) {
   if (p %in% rownames(installed.packages()) == FALSE) {
