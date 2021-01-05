@@ -4,20 +4,18 @@ import logging, time
 import config
 from upload_to_s3 import upload_to_s3
 from notify import send_email, recipients
-
+from scraper.scraper import combined
 
 # set local path
 this_file = os.path.abspath(__file__)
 this_dir = os.path.dirname(this_file)
 os.chdir(this_dir)
 
-
-
-
 try:    
     # run rscripts on the server runtime
     result = subprocess.run(["Rscript","Rscripts/xavier_dataprep.R"], capture_output=True)
     output = result.stdout.decode()
+
     if 'error' in output: 
         print("Error running the scripts, email have been sent")
         print("Details: %s" % output)
@@ -25,6 +23,7 @@ try:
     else:
         # uplodad output to S3
         upload_to_s3(body=output, filename="data-test.csv")
+        upload_to_s3(body=combined, filename="currency_output.csv")
 except Exception: 
     log = result.stderr.decode()
     print(log)
