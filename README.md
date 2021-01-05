@@ -9,7 +9,7 @@ Heroku has default buildpacks for `python` but none to run `R` code. The set up 
 
 ## Pipeline structure
   1. Main file (`app.py`)
-   Orchestrate the whole process. It calls the system runtime to process the statistical models (`.R` files) and connects with all the processes which interact with S3 storage interface and email notifications. 
+   Orchestrate the whole process. It calls the system runtime to process the statistical models (`.R` files) and connects` with all the processes which interact with S3 storage interface and email notifications. 
     - If succeed, the output is stored and uploaded to an AWS S3 bucket.
     - If files could not be read, status emails is sent.
     - If Heroku fails to run code, status emails is sent.
