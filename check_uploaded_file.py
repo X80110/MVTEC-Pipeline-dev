@@ -1,7 +1,6 @@
 import pandas as pd
 from datetime import date, timedelta
 from pretty_html_table import build_table
-
 from notify import send_email, recipients
 
 # URL = 'https://mvtec-group3.s3-eu-west-1.amazonaws.com/project/data-test.csv'

@@ -5,10 +5,14 @@ import config
 from upload_to_s3 import upload_to_s3
 from notify import send_email, recipients
 
+
 # set local path
 this_file = os.path.abspath(__file__)
 this_dir = os.path.dirname(this_file)
 os.chdir(this_dir)
+
+
+
 
 try:    
     # run rscripts on the server runtime
@@ -31,6 +35,7 @@ except Exception:
 
 
 
+# TODO Add scrapper
 
 # df = pd.read_csv('tmp/merged_data.csv')
 # print(df)
