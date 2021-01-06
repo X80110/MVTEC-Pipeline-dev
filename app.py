@@ -55,7 +55,7 @@ try:
         print(x_notify_rscripts, output)
         print("Details: %s" % output)
     else: 
-        notify_rscripts =  "✔ 1.USD-TWD exchanges has been updated to S3"
+        notify_rscripts =  "✔ 2. The R scripts run successfuly"
     
     # uplodad output to S3
     upload_to_s3(body=output, filename="usdtwd_prediction.csv")
