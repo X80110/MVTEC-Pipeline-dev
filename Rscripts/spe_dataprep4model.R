@@ -1,23 +1,24 @@
-library(tidyverse)
-library(zoo)
+suppressMessages(library(tidyverse))
+suppressMessages(library(zoo))
 
 # load data
 c <- read.csv("https://mvtec-group3.s3-eu-west-1.amazonaws.com/project/currency_output.csv",header=T)
 df <- read.csv("https://covid.ourworldindata.org/data/owid-covid-data.csv",header=T)
 
 # Preprocessing 
+names(c) <- tolower(names(c))
 df$date <- as.Date(df$date, format='%Y-%m-%d')
-c$date <- as.Date(c$Date, format='%b %d, %Y')
+c$date <- as.Date(c$date, format='%Y-%m-%d')
 
 
 currency <- c %>% 
-  select(Price, date) %>%
+  select(price, date) %>%
   complete(date = seq(min(date), max(date), by = "day"), # fill missing rate with previous date's
            fill = list(price = NA)) %>%
-  fill(Price) %>%
-  rename(usd2twd = Price) %>%
+  fill(price) %>%
+  rename(usd2twd = price) %>%
   mutate(usd2twd_avg = zoo::rollmean(usd2twd, k = 3, fill = NA)) # 3 day rolling avg to get smoother line
-
+  
 usa <- df %>% 
   filter(iso_code == 'USA') %>%
   merge(currency, by='date') %>% 
@@ -33,6 +34,6 @@ result_curr <- usa %>% select(date, usd2twd, usd2twd_avg, predicted_usd2twd)%>%
                         filter(date > "2020-09-30") #actually starts from OCT
 
 # output to capture in stdout
-cat(format_csv(result_curr)
+cat(format_csv(result_curr))
 
 # write.csv( result_curr , "/Users/spechen/Desktop/MVTEC/mid-term/MVTEC-covid-test/output/for_d3/usa_prediction_curr.csv", row.names = FALSE)
