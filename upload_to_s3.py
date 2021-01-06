@@ -14,13 +14,14 @@ def upload_to_s3(body, filename):
         s3_client.put_object(Body=body, Bucket=bucket, Key=target, ACL='public-read')
         fileurl = "https://%s.s3-%s.amazonaws.com/%s" % (bucket, region, target)
         log = "File has been updated: %s" % fileurl
-        logging.info(log)
-        notify_upload = '✓ 3. Files updated successfully to S3'
+        notify_upload = '\n ✔ Files updated successfully to S3\n'
+        print(notify_upload)
+        #logging.info(log)
         
     except ClientError as e:
         log = "Error occurred: %s" % e
         logging.error(log)
-        x_notify_upload = '☠️ 3.Error while updating files in S3'
+        x_notify_upload = '\n ☠️ 3.Error while updating files in S3\n'
         print(x_notify_upload)
         return False
-    return True, x_notify_upload, notify_upload
+    return True
