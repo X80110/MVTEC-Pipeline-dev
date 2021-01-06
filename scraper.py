@@ -28,20 +28,20 @@ def usd_twd_scrap():
         combined = combined.drop_duplicates(subset='Date', keep="first")
         # manage csv format to pass into S3
         output = StringIO()
-        push_to_S3 = combined.to_csv(output)
-        print(push_to_S3)
-        print(combined)
+        combined.to_csv(output)
+        
         # combined.to_csv('currency_output.csv', index=False)
 
-        upload_to_s3(body=push_to_S3, filename="currency_output.csv")
-        notify_exchange = "✔ 1.USD-TWD exchanges has been update to S3"
+        upload_to_s3(body=output.getvalue(), filename="currency_output.csv")
+        notify_exchange = "\n ✔ 1.USD-TWD exchanges has been updated to S3\n"
         print(notify_exchange)
     else: 
-        x_notify_exchange = "Data source is not responding. We will use archive csv."
+        x_notify_exchange = "\n Data source is not responding. We will use archive csv.\n"
         print(x_notify_exchange)
     
-    return notify_exchange, x_notify_exchange
+    # return [notify_exchange, x_notify_exchange]
 
+usd_twd_scrap()
 
 
 
