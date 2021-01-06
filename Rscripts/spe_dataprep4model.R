@@ -2,8 +2,8 @@ library(tidyverse)
 library(zoo)
 
 # load data
-c <- read.csv("./data/USD_TWD_Historical_Data.csv",header=T)
-df <- read.csv("./data/owid-covid-data-new.csv",header=T)
+c <- read.csv("https://mvtec-group3.s3-eu-west-1.amazonaws.com/project/currency_output.csv",header=T)
+df <- read.csv("https://covid.ourworldindata.org/data/owid-covid-data.csv",header=T)
 
 # Preprocessing 
 df$date <- as.Date(df$date, format='%Y-%m-%d')
@@ -32,4 +32,7 @@ usa$predicted_usd2twd <- usa$yest_new_cases_smoothed * -0.00000103668 + usa$yest
 result_curr <- usa %>% select(date, usd2twd, usd2twd_avg, predicted_usd2twd)%>% 
                         filter(date > "2020-09-30") #actually starts from OCT
 
-write.csv( result_curr , "/Users/spechen/Desktop/MVTEC/mid-term/MVTEC-covid-test/output/for_d3/usa_prediction_curr.csv", row.names = FALSE)
+# output to capture in stdout
+cat(format_csv(result_curr)
+
+# write.csv( result_curr , "/Users/spechen/Desktop/MVTEC/mid-term/MVTEC-covid-test/output/for_d3/usa_prediction_curr.csv", row.names = FALSE)
