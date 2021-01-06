@@ -21,6 +21,7 @@ def data_overview_mail(URL):
     print(log) 
     send_email(recipients,'Files has been updated to S3 successfuly',log,table)
     
+    
 
 
 

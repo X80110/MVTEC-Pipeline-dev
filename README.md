@@ -23,7 +23,7 @@ Heroku has default buildpacks for `python` but none to run `R` code. The set up 
 ### Deploy to Heroku 
 Using Heroku CLI to set the repository and push it. 
 ```
-$ git:remote -a r-pipeline
+$ git:remote -a mvtec-pipeline
 $ git add .
 $ git commit -am "deploy"
 $ git push heroku main
@@ -52,9 +52,11 @@ invisible(sapply(my_packages, install_if_missing))
 ```
 
 ## Pipeline structure
-  1. Run R scripts (`read-scripts.py`)
-  2. Load output in Python
+  1. Run scripts
+  2. Handle outputs
   3. Upload desired data to AWS S3 (`app.py`)
   4. Send email notification with success/error status (`notify.py`)
   5. Set schedule to run daily
 
+#### Resources
+[1] https://docs.python.org/3/howto/logging.html#logging-basic-tutorial

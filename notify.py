@@ -12,16 +12,14 @@ EMAIL_PASSWORD = os.environ.get('EMAIL_PASSWORD')
 # message = """ Subject: This is a test
 #
 # this is a body"""
-
+ 
 recipients  = ['xbollo@gmail.com','spepe.chen@gmail.com','nuria.altimir@gmail.com']
-## simplify email body creation
-#def email_body(log,table=None):
-#    now = datetime.datetime.now()
-#    time = now.strftime("%Y-%m-%d %H:%M")
-#    return (time + log, table)
-#
+
+
+
+
 # create the connection
-def send_email(to_addr, subject, body, table=None):
+def send_email(to_addr, subject, body, table=None): #`None` makes the variable not mandatory and as the default
     found_credentials = EMAIL_USERNAME and EMAIL_PASSWORD
     if not found_credentials:
         print("Can't find credenetials")
@@ -31,8 +29,8 @@ def send_email(to_addr, subject, body, table=None):
     message = MIMEMultipart()
     message['Subject'] = subject
     message['From'] = EMAIL_USERNAME
-    message['To'] = ', '.join(to_addr)
-    body_content = str(body) # convert to string to avoid tuple encoding in R stdout
+    message['To'] = ', '.join(to_addr)  # push it as string
+    body_content = str(body) # convert to string to avoid encoding issues in R stdout
     if table == None: 
         message.attach(MIMEText(body_content,"plain"))
     else:
@@ -48,7 +46,7 @@ def send_email(to_addr, subject, body, table=None):
         server.sendmail(EMAIL_USERNAME,to_addr,msg_body)
         print("Email sent successfully")
 
-
+#*Usage*
 #try:
 #    send_email(recipients,subject, body)
 #except Exception:
