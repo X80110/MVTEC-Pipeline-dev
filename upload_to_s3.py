@@ -15,12 +15,12 @@ def upload_to_s3(body, filename):
         fileurl = "https://%s.s3-%s.amazonaws.com/%s" % (bucket, region, target)
         log = "File has been updated: %s" % fileurl
         logging.info(log)
-        send_email(recipients,'Files updated successfully to S3',log)
-        data_overview_mail(fileurl)
-    
+        notify_upload = '✓ 3. Files updated successfully to S3'
+        
     except ClientError as e:
         log = "Error occurred: %s" % e
         logging.error(log)
-        send_email(recipients,'Error while updating files in S3',log)
+        x_notify_upload = '☠️ 3.Error while updating files in S3'
+        print(x_notify_upload)
         return False
-    return True
+    return True, x_notify_upload, notify_upload
