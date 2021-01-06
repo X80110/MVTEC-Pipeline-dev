@@ -21,7 +21,7 @@ def upload_to_s3(body, filename):
     except ClientError as e:
         log = "Error occurred: %s" % e
         logging.error(log)
-        x_notify_upload = '\n ☠️ 3.Error while updating files in S3\n'
+        x_notify_upload = '\n ☠️ Error while updating files in S3\n'
         print(x_notify_upload)
         return False
     return True
