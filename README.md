@@ -22,16 +22,16 @@ The prediction model ingests COVID-19 data directly from ourworldindata.org, the
 The code is deployed on a free Heroku dyno properly set to run both `python` and `R`code.
 
 ## Steps 
-  1. Start the process and direct it till the end. (`app.py`)
-  2. Scrap currency data (`scraper.py`)
-  3. Upload currency data to to S3 (`currency_output.csv`)
-  4. Call the system to run the `.R` files
-  5. Capture the output of R files and upload to S3
-    - Updated model results (`usdtwd_prediction.csv`)
-    - Recent covid values for report (`dailystats.csv`)
-  6. Check S3 links and summarize content for report (`check_uploaded_file.py`)
-  7. Each step appends its status in the `to_report` object and is gathered  which is  report(`notify.py`)
-  8. Set schedule to run daily
+1. Start the process and direct it till the end. (`app.py`)
+2. Scrap currency data (`scraper.py`)
+3. Upload currency data to to S3 (`currency_output.csv`)
+4. Call the system to run the `.R` files
+5. Capture the output of R files and upload to S3 
+  - Updated model results (`usdtwd_prediction.csv`)
+  - Recent covid values for report (`dailystats.csv`)
+6. Check S3 links and summarize content for report (`check_uploaded_file.py`)
+7. Each step appends its status in the `to_report` object and is gathered  which is  report(`notifypy`)
+8. Set schedule to run daily
 
 ## Deployment
 There's the file `runtime.txt`specifying Heroku which `python` version should use to ensure same compatibility as development environment. 
