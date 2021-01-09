@@ -88,7 +88,7 @@ to_report.append(overview()[1])
 subject = '[MVTEC-pipeline] Report for %s' % (date.today().strftime('%B-%d'))
 report = '\n'.join(to_report)
 try:
-    send_email('xbollo@gmail.com', subject,report,table1,table2,table3)
+    send_email(recipients, subject,report,table1,table2,table3)
 except Exception:
     print("Email delivery failed")
 end = '[MVTEC-pipeline] End of the script, server set to sleep until' % (date.today().strftime('%B-%d')+1)
