@@ -181,6 +181,6 @@ colnames(ddExtra2) <- c('continent',
   
 # Join
 covid <- select(dd, -continent) %>%
-  left_join(ddExtra2, by = 'iso_code')
+  left_join(ddExtra2, by = 'iso_code')%>% filter(date>'2020-12-01')
       
 cat(format_csv(covid))

@@ -1,26 +1,45 @@
 # Data pipeline
+
 *Group-3*
-The code takes the Covid-19 dataset from [Our World in Data](http://ourworldindata.org) and process the statistical models, the output is adapted for its use in visualizations and it is uploaded to an AWS S3 bucket to make it available to web browsers. 
 
-The pipeline core runs mostly in `python`, the statistical models which are made in `R` run in a subprocess terminal and interact with the pipeline through the standard streams of the system.
+The code aims to make available daily results of an statistical prediction model that ingests currency exchanges scrapped from investing.com and the Covid-19 dataset from [ourworldindata.org](http://ourworldindata.org).
 
-The code is deployed on a free Heroku dyno properly set to be able to run both `python` and `R`code.
-Heroku has default buildpacks for `python` but none to run `R` code. The set up uses a third-party buildpack for R in Heroku which is [available here.](https://github.com/virtualstaticvoid/heroku-buildpack-r) 
+[]
 
-## Pipeline structure
-  1. Main file (`app.py`)
-   Orchestrate the whole process. It calls the system runtime to process the statistical models (`.R` files) and connects` with all the processes which interact with S3 storage interface and email notifications. 
-    - If succeed, the output is stored and uploaded to an AWS S3 bucket.
-    - If files could not be read, status emails is sent.
-    - If Heroku fails to run code, status emails is sent.
-    - If an error occurs while uploading to S3, status emails is sent.
+## Structure
+The application runs in `python` the tasks for
+ - Directing the pipeline (`app.py`) 
+ - Scrap data from investing.com (`scraper.py`)
+ - Handling the AWS S3 interface for storing data(`upload_to_s3.py`) 
+ - The notificaton system (`notify.py`). 
 
-  2. Upload desired data to AWS S3 (`upload_to_s3.py`)
-  3. Check file and output content into notification (`check_uploaded_file`)
-  4. Send email notification with success/error status (`notify.py`)
-  5. Set schedule to run daily
+Data processes are coded in `R`, this includes
+ -  The predictive model (`dataprep4model.R`)
+ -  Data preparation (`dataprep.R`).
+
+The prediction model ingests COVID-19 data directly from ourworldindata.org, the output of the data preparation script is only used for the notification system.
+
+The code is deployed on a free Heroku dyno properly set to run both `python` and `R`code.
+
+## Steps to output
+  1. Start the process and direct it till the end. (`app.py`)
+  2. Scrap currency data (`scraper.py`)
+  3. Upload currency data to to S3 (`currency_output.csv`)
+  4. Call the system to run the `.R` files
+  5. Capture the output of R files and upload to S3
+    - Updated model results (`usdtwd_prediction.csv`)
+    - Recent covid values for report (`dailystats.csv`)
+  6. Check S3 links and summarize content for report (`check_uploaded_file.py`)
+  7. Each step appends its status in the `to_report` object and is gathered  which is  report(`notify.py`)
+  8. Set schedule to run daily
 
 ### Deploy to Heroku 
+There's the file `runtime.txt`specifying Heroku which `python` version should use to ensure same compatibility as development environment. 
+
+Python libraries are set in the file `requirements.txt`.
+
+Heroku has default buildpacks for `python` but none to run `R` code. The set up uses a third-party buildpack for R in Heroku which is [available here.](https://github.com/virtualstaticvoid/heroku-buildpack-r) 
+
 Using Heroku CLI to set the repository and push it. 
 ```
 $ git:remote -a mvtec-pipeline
@@ -32,7 +51,7 @@ Installing R runtime with buildpacks.
 ```
 $ heroku buildpacks:add https://github.com/virtualstaticvoid/heroku-buildpack-r.git
 ```
-### Installing R packages
+#### Installing R packages
 [Docs](https://github.com/virtualstaticvoid/heroku-buildpack-r)
 When the r buildpack is deployed, init.R file will be executed so we use it to install the libraries. 
 
@@ -51,12 +70,3 @@ install_if_missing = function(p) {
 invisible(sapply(my_packages, install_if_missing))
 ```
 
-## Pipeline structure
-  1. Run scripts
-  2. Handle outputs
-  3. Upload desired data to AWS S3 (`app.py`)
-  4. Send email notification with success/error status (`notify.py`)
-  5. Set schedule to run daily
-
-#### Resources
-[1] https://docs.python.org/3/howto/logging.html#logging-basic-tutorial

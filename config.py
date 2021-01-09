@@ -1,5 +1,5 @@
-# REPLACE THIS WITH YOUR NAME without spaces i.e. "mosborn"
-# this will set the target upload folder on S3 to your own directory
+# SET S3 PARAMETERS
+# this will set the target upload folder on S3
 folder="project"
 
 bucket="mvtec-group3"
