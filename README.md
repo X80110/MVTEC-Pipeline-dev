@@ -1,6 +1,6 @@
 # Data pipeline
 
-*Group-3*
+*Group 3: Spe C., Núria A., Xavier B.*
 
 The code aims to make available daily results of an statistical prediction model that ingests currency exchanges scrapped from investing.com and the Covid-19 dataset from [ourworldindata.org](http://ourworldindata.org).
 
