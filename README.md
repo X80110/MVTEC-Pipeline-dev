@@ -4,7 +4,7 @@
 
 The code aims to make available daily results of an statistical prediction model that ingests currency exchanges scrapped from investing.com and the Covid-19 dataset from [ourworldindata.org](http://ourworldindata.org).
 
-[]
+![Pipeline flow diagram](pipeline_diagram.png)
 
 ## Structure
 The application runs in `python` the tasks for
