@@ -91,5 +91,5 @@ try:
     send_email(recipients, subject,report,table1,table2,table3)
 except Exception:
     print("Email delivery failed")
-end = '[MVTEC-pipeline] End of the script, server set to sleep until' % (date.today().strftime('%B-%d')+1)
+end = '[MVTEC-pipeline] End of the script, server set to sleep'
 logging.info(end)

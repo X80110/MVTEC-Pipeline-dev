@@ -13,8 +13,8 @@ EMAIL_USERNAME = os.environ.get('EMAIL_USERNAME')
 EMAIL_PASSWORD = os.environ.get('EMAIL_PASSWORD')
 
 # Get emails from environment 
-emails  = os.environ.get('recipients')
-recipients = emails.split(',')
+EMAILS  = os.environ.get('recipients')
+recipients = EMAILS.split(',')
 
 # Object to collect pipeline messages and append to the body at the end of the flow
 to_report = []
