@@ -21,7 +21,7 @@ The prediction model ingests COVID-19 data directly from ourworldindata.org, the
 
 The code is deployed on a free Heroku dyno properly set to run both `python` and `R`code.
 
-## Steps to output
+## Steps 
   1. Start the process and direct it till the end. (`app.py`)
   2. Scrap currency data (`scraper.py`)
   3. Upload currency data to to S3 (`currency_output.csv`)
@@ -33,7 +33,7 @@ The code is deployed on a free Heroku dyno properly set to run both `python` and
   7. Each step appends its status in the `to_report` object and is gathered  which is  report(`notify.py`)
   8. Set schedule to run daily
 
-### Deploy to Heroku 
+## Deployment
 There's the file `runtime.txt`specifying Heroku which `python` version should use to ensure same compatibility as development environment. 
 
 Python libraries are set in the file `requirements.txt`.
@@ -51,6 +51,7 @@ Installing R runtime with buildpacks.
 ```
 $ heroku buildpacks:add https://github.com/virtualstaticvoid/heroku-buildpack-r.git
 ```
+---- 
 #### Installing R packages
 [Docs](https://github.com/virtualstaticvoid/heroku-buildpack-r)
 When the r buildpack is deployed, init.R file will be executed so we use it to install the libraries. 
