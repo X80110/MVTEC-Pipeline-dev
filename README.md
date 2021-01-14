@@ -29,7 +29,7 @@ The code is deployed on a free Heroku dyno properly set to run both `python` and
 5. Capture the output of R files and upload to S3 
   - Updated model results (`usdtwd_prediction.csv`)
   - Recent covid values for report (`dailystats.csv`)
-6. Check S3 links and summarize content for report (`check_uploaded_file.py`)
+6. Check S3 links and summarize content for report (`overview.py`)
 7. Each step appends its status in the `to_report` object and is gathered  which is  report(`notifypy`)
 8. Set schedule to run daily
 
