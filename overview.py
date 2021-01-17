@@ -12,7 +12,7 @@ URL = 'https://mvtec-group3.s3-eu-west-1.amazonaws.com/project/'
 
 # TODO: Add conditionals to process other content in files.
 
-
+pd.options.display.float_format = '${:,.2f}'.format
 
 def overview():
     # Create summary ---
@@ -23,19 +23,23 @@ def overview():
     # Table daily stats usdtwd_prediction
     df = pd.read_csv(URLstats)
     yesterday = date.today() - timedelta(days=2) # most recent set to 2 previous days from today to ensure values. 
-    pd.set_option('display.float_format','{:.0f}'.format)
-    df = df[(df['date']==yesterday.strftime("%Y-%m-%d"))].sort_values(by='total_deaths', ascending=False).head(7)
+    pd.set_option('display.float_format','{0:,.0f}'.format)
+    df = df[(df['date']==yesterday.strftime("%Y-%m-%d"))].sort_values(by='total_deaths', ascending=False).head(6)
     day_before_data = df[['location','new_cases','new_deaths','total_cases','total_deaths']].round(0)
 
     # Using pretty_html_table library to ease conversion from pandas to html table
     table1 = build_table(day_before_data, 'blue_light',font_family='Proxima Nova',font_size='small')
 
     # Table currency
-    dfc = pd.read_csv(URLcurr).head(7).iloc[:, 1:7]
+    pd.set_option('display.float_format','{0:,.4}'.format)
+    dfc = pd.read_csv(URLcurr).head(4).iloc[:, 1:7]
     table2 = build_table(dfc, 'blue_light',font_family='Proxima Nova',font_size='small')
 
     # Table prediction
-    dft = pd.read_csv(URLpred).head(7)
+    dft = pd.read_csv(URLpred)
+    dft['date'] =pd.to_datetime(dft.date)
+    dft.sort_values(by=['date'], inplace=True, ascending=False)
+    dft= dft.head(4)
     table3 = build_table(dft, 'blue_light',font_family='Proxima Nova',font_size='small')
 
     tables = [table1, table2, table3]
